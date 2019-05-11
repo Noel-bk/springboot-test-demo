@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Stream;
 
-@RestController("/bookings")
+@RestController
 public class HomeController implements CommandLineRunner {
 
     private final BookingService bookingService;
@@ -22,11 +22,16 @@ public class HomeController implements CommandLineRunner {
     }
 
     @GetMapping
+    public String home() {
+        return "YOLO";
+    }
+
+    @GetMapping("/bookings")
     public List<Booking> getAll() {
         return bookingService.getAll();
     }
 
-    @PostMapping
+    @PostMapping("/bookings")
     public Booking add(@RequestBody Booking booking) {
         return bookingService.save(booking);
     }

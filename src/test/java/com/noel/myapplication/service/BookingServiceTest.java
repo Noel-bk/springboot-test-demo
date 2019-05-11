@@ -26,9 +26,11 @@ public class BookingServiceTest {
 
     @Test
     public void getAllTest() {
-        List<Booking> expectedBookings = Stream.of("alfa", "bravo", "charlie").map(Booking::new).collect(Collectors.toList());
-        given(bookingRepository.findAll()).willReturn(expectedBookings);
+        List<Booking> expectedBookings = Stream.of("alfa", "bravo", "charlie")
+            .map(Booking::new)
+            .collect(Collectors.toList());
 
+        given(bookingRepository.findAll()).willReturn(expectedBookings);
         List<Booking> bookings = bookingService.getAll();
 
         assertEquals(bookings.size(), expectedBookings.size());

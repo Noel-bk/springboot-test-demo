@@ -12,11 +12,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -39,8 +40,12 @@ public class WebMockTest {
             .collect(Collectors.toList());
 
         when(service.getAll()).thenReturn(expectedBookings);
+
         this.mockMvc.perform(get("/bookings")).andDo(print()).andExpect(status().isOk())
-            .andExpect(content().string(containsString("alfa")));
+            .andExpect(content().string(containsString(expectedBookings.get(new Random().nextInt(expectedBookings.size())).getBookingName())));
+
+        verify(service, times(3)).save(any());
+        verify(service, times(1)).getAll();
     }
 
 }
